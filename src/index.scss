@@ -26,21 +26,39 @@ code {
   height: 640px;
   border: 2px solid black;
 
+  &__piece-img {
+    width: 75%;
+    cursor: pointer;
+
+    &:hover {
+      scale: 1.2;
+    }
+  }
+
   .row {
     display: flex;
+  }
+
+  .dark,
+  .white {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:active {
+      filter: brightness(0.8);
+    }
   }
 
   .dark {
     color: #5f5f5d;
     background-color: #5f5f5d;
-    width: 80px;
-    height: 80px;
   }
 
   .white {
     color: beige;
     background-color: beige;
-    width: 80px;
-    height: 80px;
   }
 }

@@ -11,6 +11,9 @@ const ChessBoard = () => {
   const [whitePlayer, setWhitePlayer] = useState(WhitePlayer);
   const [blackPlayer, setBlackPlayer] = useState(BlackPlayer);
 
+  const combinedArr = [...whitePlayer.pieces, ...blackPlayer.pieces];
+  // TODO const [positionArray, setPositionArray]
+
   const getPosition = (e) => {
     setPosition(e.target.dataset.squarePosition);
   };
@@ -24,9 +27,22 @@ const ChessBoard = () => {
               key={colIndex}
               id={`col-${col}`}
               className={`${row % 2 === colIndex % 2 ? "dark" : "white"}`}
-              data-square-position={`${row}${col}`}
+              data-square-position={`${col}${row}`}
               onClick={getPosition}
-            ></div>
+            >
+              {combinedArr.map((piece) =>
+                piece.position === `${col}${row}` ? (
+                  <img
+                    className="chess-board__piece-img"
+                    key={combinedArr.indexOf(piece)}
+                    alt={piece.name}
+                    src={piece.imageSrc}
+                  />
+                ) : (
+                  ""
+                )
+              )}
+            </div>
           ))}
         </div>
       ))}
