@@ -1,6 +1,7 @@
-import React from "react";
+// components
+import BoardDetails from "./boardDetails";
 
-function ChessBoard() {
+const ChessBoard = () => {
   const rows = [1, 2, 3, 4, 5, 6, 7, 8];
   const cols = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
@@ -17,8 +18,10 @@ function ChessBoard() {
           ))}
         </div>
       ))}
+      <BoardDetails array={rows} direction="col" />
+      <BoardDetails array={cols} direction="row" />
     </div>
   );
-}
+};
 
 export default ChessBoard;

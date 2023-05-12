@@ -1,0 +1,25 @@
+.chess-board-details {
+  position: absolute;
+  display: flex;
+  text-align: center;
+
+  &--row {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 640px;
+    bottom: -70px;
+  }
+
+  &--col {
+    flex-direction: column;
+    height: 640px;
+    left: -40px;
+    top: 0px;
+  }
+
+  &__item {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
