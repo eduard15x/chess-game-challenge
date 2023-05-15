@@ -27,7 +27,9 @@ code {
   border: 2px solid black;
 
   &__piece-img {
-    width: 75%;
+    width: 56px;
+    height: 56px;
+    padding: 12px;
     cursor: pointer;
 
     &:hover {
