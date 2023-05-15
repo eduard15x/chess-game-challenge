@@ -15,6 +15,8 @@ export const BlackPlayer = {
       position: "e8",
       numericPosition: 60,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Queen",
@@ -22,6 +24,8 @@ export const BlackPlayer = {
       position: "d8",
       numericPosition: 61,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Rook 1",
@@ -29,6 +33,8 @@ export const BlackPlayer = {
       position: "a8",
       numericPosition: 57,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Rook 2",
@@ -36,6 +42,8 @@ export const BlackPlayer = {
       position: "h8",
       numericPosition: 64,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Bishop 1",
@@ -43,6 +51,8 @@ export const BlackPlayer = {
       position: "c8",
       numericPosition: 59,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Bishop 2",
@@ -50,6 +60,8 @@ export const BlackPlayer = {
       position: "f8",
       numericPosition: 62,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Knight 1",
@@ -57,6 +69,8 @@ export const BlackPlayer = {
       position: "b8",
       numericPosition: 58,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Knight 2",
@@ -64,6 +78,8 @@ export const BlackPlayer = {
       position: "g8",
       numericPosition: 63,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 1",
@@ -71,6 +87,8 @@ export const BlackPlayer = {
       position: "a7",
       numericPosition: 49,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 2",
@@ -78,6 +96,8 @@ export const BlackPlayer = {
       position: "b7",
       numericPosition: 50,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 3",
@@ -85,6 +105,8 @@ export const BlackPlayer = {
       position: "c7",
       numericPosition: 51,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 4",
@@ -92,6 +114,8 @@ export const BlackPlayer = {
       position: "d7",
       numericPosition: 52,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 5",
@@ -99,6 +123,8 @@ export const BlackPlayer = {
       position: "e7",
       numericPosition: 53,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 6",
@@ -106,6 +132,8 @@ export const BlackPlayer = {
       position: "f7",
       numericPosition: 54,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 7",
@@ -113,6 +141,8 @@ export const BlackPlayer = {
       position: "g7",
       numericPosition: 55,
       alive: true,
+      selected: false,
+      color: "black",
     },
     {
       name: "Black Pawn 8",
@@ -120,6 +150,8 @@ export const BlackPlayer = {
       position: "h7",
       numericPosition: 56,
       alive: true,
+      selected: false,
+      color: "black",
     },
   ],
 };

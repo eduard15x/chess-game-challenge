@@ -15,6 +15,8 @@ export const WhitePlayer = {
       position: "e1",
       numericPosition: 4,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Queen",
@@ -22,6 +24,8 @@ export const WhitePlayer = {
       position: "d1",
       numericPosition: 5,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Rook 1",
@@ -29,6 +33,8 @@ export const WhitePlayer = {
       position: "a1",
       numericPosition: 1,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Rook 2",
@@ -36,6 +42,8 @@ export const WhitePlayer = {
       position: "h1",
       numericPosition: 8,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Bishop 1",
@@ -43,6 +51,8 @@ export const WhitePlayer = {
       position: "c1",
       numericPosition: 3,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Bishop 2",
@@ -50,6 +60,8 @@ export const WhitePlayer = {
       position: "f1",
       numericPosition: 6,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Knight 1",
@@ -57,6 +69,8 @@ export const WhitePlayer = {
       position: "b1",
       numericPosition: 2,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Knight 2",
@@ -64,6 +78,8 @@ export const WhitePlayer = {
       position: "g1",
       numericPosition: 7,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 1",
@@ -71,6 +87,8 @@ export const WhitePlayer = {
       position: "a2",
       numericPosition: 9,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 2",
@@ -78,6 +96,8 @@ export const WhitePlayer = {
       position: "b2",
       numericPosition: 10,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 3",
@@ -85,6 +105,8 @@ export const WhitePlayer = {
       position: "c2",
       numericPosition: 11,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 4",
@@ -92,6 +114,8 @@ export const WhitePlayer = {
       position: "d2",
       numericPosition: 12,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 5",
@@ -99,6 +123,8 @@ export const WhitePlayer = {
       position: "e2",
       numericPosition: 13,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 6",
@@ -106,6 +132,8 @@ export const WhitePlayer = {
       position: "f2",
       numericPosition: 14,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 7",
@@ -113,6 +141,8 @@ export const WhitePlayer = {
       position: "g2",
       numericPosition: 15,
       alive: true,
+      selected: false,
+      color: "white",
     },
     {
       name: "White Pawn 8",
@@ -120,6 +150,8 @@ export const WhitePlayer = {
       position: "h2",
       numericPosition: 16,
       alive: true,
+      selected: false,
+      color: "white",
     },
   ],
 };

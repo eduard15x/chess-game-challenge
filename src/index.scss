@@ -16,6 +16,7 @@ code {
 }
 
 @import "./styles/chess-board-details.scss";
+@import "./styles/players-details.scss";
 
 .chess-board {
   position: absolute;
@@ -33,8 +34,14 @@ code {
     cursor: pointer;
 
     &:hover {
-      scale: 1.2;
+      scale: 1.3;
     }
+  }
+
+  .piece-selected {
+    scale: 1.3;
+    background-color: red;
+    padding: 2px;
   }
 
   .row {
