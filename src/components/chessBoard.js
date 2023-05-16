@@ -19,7 +19,7 @@ const ChessBoard = () => {
   const [blackPlayer, setBlackPlayer] = useState(BlackPlayer);
   const [isTurn, setIsTurn] = useState(whitePlayer.turnToMove);
 
-  const [selectedPiece, setSelectedPiece] = useState({});
+  const [selectedPiece, setSelectedPiece] = useState(null);
 
   const [combinedArr, setCombinedArr] = useState([
     ...whitePlayer.pieces,
@@ -31,11 +31,14 @@ const ChessBoard = () => {
     // condition for selecting item
     if (
       e.target.dataset.pieceColor === "white" &&
-      e.target.classList.contains("piece-img")
+      e.target.classList.contains("piece-img") &&
+      selectedPiece === null
     ) {
       if (whitePlayer.turnToMove) {
         whitePlayer.turnToMove = false;
         blackPlayer.turnToMove = true;
+        update();
+        console.log("da");
       } else {
         alert("blackPlayer Turn");
         return;
@@ -45,29 +48,98 @@ const ChessBoard = () => {
     // condition for selecting item
     if (
       e.target.dataset.pieceColor === "black" &&
-      e.target.classList.contains("piece-img")
+      e.target.classList.contains("piece-img") &&
+      selectedPiece === null
     ) {
       if (blackPlayer.turnToMove) {
         blackPlayer.turnToMove = false;
         whitePlayer.turnToMove = true;
+        update();
+        console.log("dac");
       } else {
         alert("whitePlayer Turn");
         return;
       }
     }
 
-    // set state for array with new values of player objects
-    setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
-    console.log("da");
+    // condition after piece is selected, then select same piece
+    if (
+      e.target.classList.contains("piece-img") &&
+      selectedPiece !== null &&
+      e.target.dataset.pieceName === selectedPiece.name
+    ) {
+      console.log("select the same");
+      return;
+      // condition after piece is selected, then select another piece with same color
+    } else if (
+      e.target.classList.contains("piece-img") &&
+      selectedPiece !== null &&
+      e.target.dataset.pieceName !== selectedPiece.name &&
+      e.target.dataset.pieceColor === selectedPiece.color
+    ) {
+      console.log("same color");
+      // condition after piece is selected, then select another enemy piece, different color
+    } else if (
+      e.target.classList.contains("piece-img") &&
+      selectedPiece !== null &&
+      e.target.dataset.pieceName !== selectedPiece.name &&
+      e.target.dataset.pieceColor !== selectedPiece.color
+    ) {
+      console.log("enemy piece selected");
+      // condition to delete piece
+      if (selectedPiece.color === "white") {
+        whitePlayer.turnToMove = false;
+        blackPlayer.turnToMove = true;
+        const enemyPieceSelected = blackPlayer.pieces.find(
+          (item) => e.target.dataset.pieceName === item.name
+        );
+        console.log(enemyPieceSelected);
+        enemyPieceSelected.alive = false;
+        selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
+        // remade the other items unselected
+        combinedArr.map((item) => (item.selected = false));
+        console.log("blackPlayer");
+        console.log(combinedArr);
+        setSelectedPiece(null);
+        // redefine new the array with the updates
+        setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+      } else if (selectedPiece.color === "black") {
+        blackPlayer.turnToMove = false;
+        whitePlayer.turnToMove = true;
+        const enemyPieceSelected = whitePlayer.pieces.find(
+          (item) => e.target.dataset.pieceName === item.name
+        );
+        console.log(enemyPieceSelected);
+        enemyPieceSelected.alive = false;
+        selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
+        // remade the other items unselected
+        combinedArr.map((item) => (item.selected = false));
+        console.log("whitePlayer");
+        console.log(combinedArr);
+        setSelectedPiece(null);
+        // redefine new the array with the updates
+        setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+      }
+      // blackPlayer.turnToMove = false;
+      // whitePlayer.turnToMove = true;
+    }
 
-    // remade the other items unselected
-    combinedArr.map((item) => (item.selected = false));
-    // make the clicked item selected
-    const pieceClicked = combinedArr.find(
-      (item) => item.name === e.target.dataset.pieceName
-    );
-    pieceClicked.selected = true;
-    setSelectedPiece(pieceClicked);
+    function update() {
+      console.log(selectedPiece);
+
+      // set state for array with new values of player objects
+      setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+      console.log("da");
+
+      // remade the other items unselected
+      combinedArr.map((item) => (item.selected = false));
+      // make the clicked item selected
+      const pieceClicked = combinedArr.find(
+        (item) => item.name === e.target.dataset.pieceName
+      );
+      pieceClicked.selected = true;
+      setSelectedPiece(pieceClicked);
+    }
   };
 
   const handleMove = (e) => {
@@ -86,9 +158,28 @@ const ChessBoard = () => {
       // set turn
       setIsTurn(whitePlayer.turnToMove);
       // unselect the piece after move ended
-      setSelectedPiece({});
+      setSelectedPiece(null);
       // redefine new the array with the updates
       setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+    } else if (
+      // e.target.classList.contains("piece-img") &&
+      // e.target.dataset.pieceColor !== selectedPiece.color &&
+      // selectedPiece
+      e.target.dataset.numericPosition === false
+    ) {
+      alert("cant move on same spot");
+      // console.log(e.target.dataset.pieceColor);
+      // console.log(selectedPiece.color);
+      // const itemOnSelection = combinedArr.find((item) => {
+      //   return item.name === e.target.dataset.pieceName;
+      // });
+      // console.log(itemOnSelection);
+      // console.log(combinedArr);
+      // itemOnSelection.alive = false;
+      // const positionSelected = combinedArr.find((item) => {
+      //   return item.selected;
+      // });
+      // const transform = Number(e.target.dataset.numericPosition);
     }
   };
 
