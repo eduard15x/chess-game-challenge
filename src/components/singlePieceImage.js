@@ -1,4 +1,9 @@
-const SinglePieceImage = ({ piece, numericPosition, selected }) => {
+const SinglePieceImage = ({
+  piece,
+  numericPosition,
+  selected,
+  selectPiece,
+}) => {
   return (
     <img
       className={`chess-board__piece-img piece-img ${
@@ -10,6 +15,7 @@ const SinglePieceImage = ({ piece, numericPosition, selected }) => {
       data-numeric-position={numericPosition}
       data-piece-name={piece.name}
       data-piece-color={piece.color}
+      onClick={selectPiece}
     />
   );
 };

@@ -6,14 +6,15 @@ const SingleSquare = ({
   numericPosition,
   combinedArr,
   condition,
-  getPosition,
+  selectPiece,
+  handleMove,
 }) => {
   return (
     <div
       className={color}
       data-alphabetical-position={namePosition}
       data-numeric-position={numericPosition}
-      onClick={getPosition}
+      onClick={handleMove}
     >
       {combinedArr.map((piece) =>
         piece.numericPosition === condition && piece.alive === true ? (
@@ -22,6 +23,7 @@ const SingleSquare = ({
             piece={piece}
             numericPosition={numericPosition}
             selected={piece.selected}
+            selectPiece={selectPiece}
           />
         ) : (
           ""

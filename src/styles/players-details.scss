@@ -1,0 +1,11 @@
+.players-details {
+  position: absolute;
+  top: -100px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 640px;
+
+  .turn {
+    color: brown;
+  }
+}

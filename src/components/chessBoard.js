@@ -19,50 +19,80 @@ const ChessBoard = () => {
   const [blackPlayer, setBlackPlayer] = useState(BlackPlayer);
   const [isTurn, setIsTurn] = useState(whitePlayer.turnToMove);
 
+  const [selectedPiece, setSelectedPiece] = useState({});
+
   const [combinedArr, setCombinedArr] = useState([
     ...whitePlayer.pieces,
     ...blackPlayer.pieces,
   ]);
   // TODO const [positionArray, setPositionArray]
 
-  const getPosition = (e) => {
-    if (e.target.classList.contains("piece-img")) {
-      // condition for selecting item
-      if (e.target.dataset.pieceColor === "white") {
-        if (whitePlayer.turnToMove) {
-          whitePlayer.turnToMove = false;
-          blackPlayer.turnToMove = true;
-        } else {
-          alert("blackPlayer Turn");
-          return;
-        }
+  const selectPiece = (e) => {
+    // condition for selecting item
+    if (
+      e.target.dataset.pieceColor === "white" &&
+      e.target.classList.contains("piece-img")
+    ) {
+      if (whitePlayer.turnToMove) {
+        whitePlayer.turnToMove = false;
+        blackPlayer.turnToMove = true;
+      } else {
+        alert("blackPlayer Turn");
+        return;
       }
+    }
 
-      // condition for selecting item
-      if (e.target.dataset.pieceColor === "black") {
-        if (blackPlayer.turnToMove) {
-          blackPlayer.turnToMove = false;
-          whitePlayer.turnToMove = true;
-        } else {
-          alert("whitePlayer Turn");
-          return;
-        }
+    // condition for selecting item
+    if (
+      e.target.dataset.pieceColor === "black" &&
+      e.target.classList.contains("piece-img")
+    ) {
+      if (blackPlayer.turnToMove) {
+        blackPlayer.turnToMove = false;
+        whitePlayer.turnToMove = true;
+      } else {
+        alert("whitePlayer Turn");
+        return;
       }
+    }
 
-      // remade the other items unselected
+    // set state for array with new values of player objects
+    setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+    console.log("da");
+
+    // remade the other items unselected
+    combinedArr.map((item) => (item.selected = false));
+    // make the clicked item selected
+    const pieceClicked = combinedArr.find(
+      (item) => item.name === e.target.dataset.pieceName
+    );
+    pieceClicked.selected = true;
+    setSelectedPiece(pieceClicked);
+  };
+
+  const handleMove = (e) => {
+    if (!e.target.classList.contains("piece-img")) {
+      const positionSelected = combinedArr.find((item) => {
+        return item.selected;
+      });
+
+      const transform = Number(e.target.dataset.numericPosition);
+
+      if (positionSelected) {
+        positionSelected.numericPosition = transform;
+      }
       combinedArr.map((item) => (item.selected = false));
-      // make the clicked item selected
-      const obj = combinedArr.find(
-        (item) => item.name === e.target.dataset.pieceName
-      );
-      obj.selected = true;
-      console.log(obj);
-      // set state for array with new values of player objects
+
+      // set turn
+      setIsTurn(whitePlayer.turnToMove);
+      // unselect the piece after move ended
+      setSelectedPiece({});
+      // redefine new the array with the updates
       setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
     }
   };
 
-  // useEffect(() => {}, [isTurn, combinedArr]);
+  // useEffect(() => {}, [whitePlayer, blackPlayer]);
 
   return (
     <div className="chess-board">
@@ -81,7 +111,8 @@ const ChessBoard = () => {
                   ? "dark single-square"
                   : "white single-square"
               }
-              getPosition={getPosition}
+              selectPiece={selectPiece}
+              handleMove={handleMove}
             />
           ))}
         </div>
