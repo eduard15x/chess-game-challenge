@@ -28,6 +28,8 @@ const SingleSquare = ({
             numericPosition={numericPosition}
             selected={piece.selected}
             selectPiece={selectPiece}
+            row={row}
+            col={col}
           />
         ) : (
           ""

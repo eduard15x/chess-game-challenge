@@ -3,6 +3,8 @@ const SinglePieceImage = ({
   numericPosition,
   selected,
   selectPiece,
+  row,
+  col,
 }) => {
   return (
     <img
@@ -15,6 +17,8 @@ const SinglePieceImage = ({
       data-numeric-position={numericPosition}
       data-piece-name={piece.name}
       data-piece-color={piece.color}
+      data-row={row}
+      data-col={col}
       onClick={selectPiece}
     />
   );
