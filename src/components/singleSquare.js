@@ -8,6 +8,8 @@ const SingleSquare = ({
   condition,
   selectPiece,
   handleMove,
+  row,
+  col,
 }) => {
   return (
     <div
@@ -15,6 +17,8 @@ const SingleSquare = ({
       data-alphabetical-position={namePosition}
       data-numeric-position={numericPosition}
       onClick={handleMove}
+      data-row={row}
+      data-col={col}
     >
       {combinedArr.map((piece) =>
         piece.numericPosition === condition && piece.alive === true ? (

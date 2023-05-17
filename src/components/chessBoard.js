@@ -27,7 +27,16 @@ const ChessBoard = () => {
   ]);
   // TODO const [positionArray, setPositionArray]
 
+  const kingsArr = combinedArr.filter(
+    (item) => item.name === "White King" || item.name === "Black King"
+  );
+
+  const deadKing = kingsArr.find((item) => item.alive === false);
+
   const selectPiece = (e) => {
+    if (deadKing !== undefined || deadKing === null) {
+      return;
+    }
     // condition for selecting item
     if (
       e.target.dataset.pieceColor === "white" &&
@@ -143,47 +152,38 @@ const ChessBoard = () => {
   };
 
   const handleMove = (e) => {
+    // check if any king is dead
+    if (deadKing !== undefined || deadKing === null) {
+      return;
+    }
+
+    // change positon of selected piece if next click is not on other piece
     if (!e.target.classList.contains("piece-img")) {
       const positionSelected = combinedArr.find((item) => {
         return item.selected;
       });
 
-      const transform = Number(e.target.dataset.numericPosition);
-
       if (positionSelected) {
-        positionSelected.numericPosition = transform;
+        positionSelected.numericPosition = Number(
+          e.target.dataset.numericPosition
+        );
       }
       combinedArr.map((item) => (item.selected = false));
 
       // set turn
-      setIsTurn(whitePlayer.turnToMove);
       // unselect the piece after move ended
-      setSelectedPiece(null);
       // redefine new the array with the updates
+      setIsTurn(whitePlayer.turnToMove);
+      setSelectedPiece(null);
       setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
-    } else if (
-      // e.target.classList.contains("piece-img") &&
-      // e.target.dataset.pieceColor !== selectedPiece.color &&
-      // selectedPiece
-      e.target.dataset.numericPosition === false
-    ) {
-      alert("cant move on same spot");
-      // console.log(e.target.dataset.pieceColor);
-      // console.log(selectedPiece.color);
-      // const itemOnSelection = combinedArr.find((item) => {
-      //   return item.name === e.target.dataset.pieceName;
-      // });
-      // console.log(itemOnSelection);
-      // console.log(combinedArr);
-      // itemOnSelection.alive = false;
-      // const positionSelected = combinedArr.find((item) => {
-      //   return item.selected;
-      // });
-      // const transform = Number(e.target.dataset.numericPosition);
     }
   };
 
-  // useEffect(() => {}, [whitePlayer, blackPlayer]);
+  // useEffect(() => {
+  //   if (deadKing !== undefined) {
+  //     alert(deadKing.color === "white" ? "Black Won" : "White Won");
+  //   }
+  // }, [combinedArr]);
 
   return (
     <div className="chess-board">
@@ -204,6 +204,8 @@ const ChessBoard = () => {
               }
               selectPiece={selectPiece}
               handleMove={handleMove}
+              row={row}
+              col={COLS.indexOf(col) + 1}
             />
           ))}
         </div>
