@@ -7,13 +7,14 @@
     flex-direction: row;
     justify-content: space-around;
     width: 640px;
-    bottom: -70px;
+    bottom: -50px;
   }
 
   &--col {
     flex-direction: column;
+    justify-content: space-around;
     height: 640px;
-    left: -40px;
+    left: -50px;
     top: 0px;
   }
 

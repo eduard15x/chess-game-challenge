@@ -534,7 +534,11 @@ const ChessBoard = () => {
       ))}
       <BoardDetails array={ROWS} direction="col" />
       <BoardDetails array={COLS} direction="row" />
-      <PlayerDetails turn={isTurn} />
+      <PlayerDetails
+        turn={isTurn}
+        whitePlayer={whitePlayer}
+        blackPlayer={blackPlayer}
+      />
     </div>
   );
 };

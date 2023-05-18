@@ -1,11 +1,24 @@
 .players-details {
   position: absolute;
-  top: -100px;
+  top: -155px;
   display: flex;
   justify-content: space-evenly;
   width: 640px;
 
+  h2 {
+    padding-bottom: 12px;
+    text-align: center;
+  }
+
   .turn {
-    color: brown;
+    color: red;
+  }
+
+  &__single-player-info {
+    border: 2px solid black;
+
+    img {
+      width: 22px;
+    }
   }
 }
