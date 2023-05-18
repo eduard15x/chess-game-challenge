@@ -130,6 +130,16 @@ const ChessBoard = () => {
     }
   };
 
+  const checkMoveAvailableRook = (currRow, currCol, setRow, setCol) => {
+    if (currRow === setRow || currCol === setCol) {
+      console.log("rook move available");
+      return true;
+    } else {
+      console.log("rook not available");
+      return false;
+    }
+  };
+
   const selectPiece = (e) => {
     if (deadKing !== undefined || deadKing === null) {
       return;
@@ -212,8 +222,14 @@ const ChessBoard = () => {
         setRowNr,
         setColNr
       );
+      const conditionRook = checkMoveAvailableRook(
+        currRowNr,
+        currColNr,
+        setRowNr,
+        setColNr
+      );
 
-      if (conditionPawn || conditionBishop) {
+      if (conditionPawn || conditionBishop || conditionRook) {
         console.log("enemy piece selected");
         // condition to delete piece
         if (selectedPiece.color === "white") {
@@ -312,7 +328,14 @@ const ChessBoard = () => {
           setRowNr,
           setColNr
         );
-        if (conditionPawn || conditionBishop) {
+
+        const conditionRook = checkMoveAvailableRook(
+          currRowNr,
+          currColNr,
+          setRowNr,
+          setColNr
+        );
+        if (conditionPawn || conditionBishop || conditionRook) {
           positionSelected.numericPosition = Number(
             e.target.dataset.numericPosition
           );
