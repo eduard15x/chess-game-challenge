@@ -6,16 +6,23 @@
   width: 640px;
 
   h2 {
-    padding-bottom: 12px;
     text-align: center;
+    margin: 0px;
+    padding: 0px;
   }
 
   .turn {
     color: red;
   }
 
+  .total-score {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
   &__single-player-info {
-    border: 2px solid black;
+    border: 1px solid black;
+    padding: 2px 4px;
 
     img {
       width: 22px;

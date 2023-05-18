@@ -1,3 +1,6 @@
+// components
+import PiecesTaken from "./piecesTaken";
+
 const PlayerDetails = ({ turn, whitePlayer, blackPlayer }) => {
   const takenWhitePiecesArr = whitePlayer.pieces.filter(
     (item) => item.alive === false
@@ -7,34 +10,36 @@ const PlayerDetails = ({ turn, whitePlayer, blackPlayer }) => {
     (item) => item.alive === false
   );
 
+  if (takenBlackPiecesArr.length > 0) {
+    whitePlayer.score = 0; // reinit the score to 0 before adding the value of taken pieces
+    for (let pieceValue of takenBlackPiecesArr) {
+      whitePlayer.score += pieceValue.value;
+    }
+  }
+
+  if (takenWhitePiecesArr.length > 0) {
+    blackPlayer.score = 0;
+    for (let pieceValue of takenWhitePiecesArr) {
+      blackPlayer.score += pieceValue.value;
+    }
+  }
+
   return (
     <div className="players-details">
       <div>
         <h2 className={turn ? "turn" : ""}>White Player</h2>
+        {/* Show score */}
+        <p className="total-score">Score {whitePlayer.score}</p>
         {/* Show taken pieces */}
-        {takenBlackPiecesArr.length > 0 ? (
-          <div className="players-details__single-player-info">
-            {takenBlackPiecesArr.map((item) => (
-              <img alt={item.name} src={item.imageSrc} />
-            ))}
-          </div>
-        ) : (
-          ""
-        )}
+        <PiecesTaken piecesTakenArr={takenBlackPiecesArr} />
       </div>
 
       <div>
         <h2 className={!turn ? "turn" : ""}>Black Player</h2>
+        {/* Show score */}
+        <p className="total-score">Score {blackPlayer.score}</p>
         {/* Show taken pieces */}
-        {takenWhitePiecesArr.length > 0 ? (
-          <div className="players-details__single-player-info">
-            {takenWhitePiecesArr.map((item) => (
-              <img alt={item.name} src={item.imageSrc} />
-            ))}
-          </div>
-        ) : (
-          ""
-        )}
+        <PiecesTaken piecesTakenArr={takenWhitePiecesArr} />
       </div>
     </div>
   );
