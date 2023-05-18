@@ -153,6 +153,35 @@ const ChessBoard = () => {
     }
   };
 
+  const checkMoveAvailableKnight = (
+    piece,
+    currRow,
+    currCol,
+    setRow,
+    setCol
+  ) => {
+    if (piece.type !== "knight") {
+      return false;
+    }
+    if (
+      // clock order
+      (currRow - setRow === 2 && setCol - currCol === 1) ||
+      (currRow - setRow === 1 && setCol - currCol === 2) ||
+      (setRow - currRow === 1 && setCol - currCol === 2) ||
+      (setRow - currRow === 2 && setCol - currCol === 1) ||
+      (setRow - currRow === 2 && currCol - setCol === 1) ||
+      (setRow - currRow === 1 && currCol - setCol === 2) ||
+      (currRow - setRow === 1 && currCol - setCol === 2) ||
+      (currRow - setRow === 2 && currCol - setCol === 1)
+    ) {
+      console.log("available - knight");
+      return true;
+    } else {
+      console.log("not an available move for knight");
+      return false;
+    }
+  };
+
   const selectPiece = (e) => {
     if (deadKing !== undefined || deadKing === null) {
       return;
@@ -244,8 +273,20 @@ const ChessBoard = () => {
         setRowNr,
         setColNr
       );
+      const conditionKnight = checkMoveAvailableKnight(
+        selectedPiece,
+        currRowNr,
+        currColNr,
+        setRowNr,
+        setColNr
+      );
 
-      if (conditionPawn || conditionBishop || conditionRook) {
+      if (
+        conditionPawn ||
+        conditionBishop ||
+        conditionRook ||
+        conditionKnight
+      ) {
         console.log("enemy piece selected");
         // condition to delete piece
         if (selectedPiece.color === "white") {
@@ -345,7 +386,6 @@ const ChessBoard = () => {
           setRowNr,
           setColNr
         );
-
         const conditionRook = checkMoveAvailableRook(
           positionSelected,
           currRowNr,
@@ -353,7 +393,20 @@ const ChessBoard = () => {
           setRowNr,
           setColNr
         );
-        if (conditionPawn || conditionBishop || conditionRook) {
+        const conditionKnight = checkMoveAvailableKnight(
+          selectedPiece,
+          currRowNr,
+          currColNr,
+          setRowNr,
+          setColNr
+        );
+
+        if (
+          conditionPawn ||
+          conditionBishop ||
+          conditionRook ||
+          conditionKnight
+        ) {
           positionSelected.numericPosition = Number(
             e.target.dataset.numericPosition
           );
