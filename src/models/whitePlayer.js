@@ -18,6 +18,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "king",
     },
     {
       name: "White Queen",
@@ -28,6 +29,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "queen",
     },
     {
       name: "White Rook 1",
@@ -38,6 +40,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "rook",
     },
     {
       name: "White Rook 2",
@@ -48,6 +51,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "rook",
     },
     {
       name: "White Bishop 1",
@@ -58,6 +62,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "bishop",
     },
     {
       name: "White Bishop 2",
@@ -68,6 +73,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "bishop",
     },
     {
       name: "White Knight 1",
@@ -78,6 +84,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "knight",
     },
     {
       name: "White Knight 2",
@@ -88,6 +95,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "knight",
     },
     {
       name: "White Pawn 1",
@@ -98,6 +106,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "White Pawn 2",
@@ -108,6 +117,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "White Pawn 3",
@@ -118,6 +128,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "White Pawn 4",
@@ -128,6 +139,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "White Pawn 5",
@@ -138,6 +150,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "White Pawn 6",
@@ -148,6 +161,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "White Pawn 7",
@@ -158,6 +172,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "White Pawn 8",
@@ -168,6 +183,7 @@ export const WhitePlayer = {
       selected: false,
       color: "white",
       startPosition: true,
+      type: "pawn",
     },
   ],
 };

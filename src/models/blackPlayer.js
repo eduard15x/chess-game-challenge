@@ -18,6 +18,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "king",
     },
     {
       name: "Black Queen",
@@ -28,6 +29,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "queen",
     },
     {
       name: "Black Rook 1",
@@ -38,6 +40,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "rook",
     },
     {
       name: "Black Rook 2",
@@ -48,6 +51,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "rook",
     },
     {
       name: "Black Bishop 1",
@@ -58,6 +62,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "bishop",
     },
     {
       name: "Black Bishop 2",
@@ -68,6 +73,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "bishop",
     },
     {
       name: "Black Knight 1",
@@ -78,6 +84,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "knight",
     },
     {
       name: "Black Knight 2",
@@ -88,6 +95,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "knight",
     },
     {
       name: "Black Pawn 1",
@@ -98,6 +106,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "Black Pawn 2",
@@ -108,6 +117,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "Black Pawn 3",
@@ -118,6 +128,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "Black Pawn 4",
@@ -128,6 +139,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "Black Pawn 5",
@@ -138,6 +150,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "Black Pawn 6",
@@ -148,6 +161,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "Black Pawn 7",
@@ -158,6 +172,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
     {
       name: "Black Pawn 8",
@@ -168,6 +183,7 @@ export const BlackPlayer = {
       selected: false,
       color: "black",
       startPosition: true,
+      type: "pawn",
     },
   ],
 };
