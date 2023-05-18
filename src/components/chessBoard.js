@@ -44,6 +44,9 @@ const ChessBoard = () => {
     setRow,
     setCol
   ) => {
+    if (piece.type !== "pawn") {
+      return false;
+    }
     if (nextPos) {
       if (piece.color === "black") {
         if (
@@ -53,7 +56,7 @@ const ChessBoard = () => {
           console.log("piece taken, move available");
           return true;
         }
-        console.log("move not ok");
+        console.log("not an available move for pawn");
         return;
       }
 
@@ -65,7 +68,7 @@ const ChessBoard = () => {
           console.log("piece taken, move available");
           return true;
         }
-        console.log("move not ok");
+        console.log("not an available move for pawn");
         return;
       }
     } else if (!nextPos) {
@@ -110,32 +113,42 @@ const ChessBoard = () => {
         }
       }
     }
-    //  else {
-    //   console.log("not available");
+    console.log("not an available move for pawn");
     return false;
-    // }
   };
-  const checkMoveAvailableBishop = (currRow, currCol, setRow, setCol) => {
+  const checkMoveAvailableBishop = (
+    piece,
+    currRow,
+    currCol,
+    setRow,
+    setCol
+  ) => {
+    if (piece.type !== "bishop") {
+      return false;
+    }
     if (
       currRow - setRow === setCol - currCol ||
       setRow - currRow === currCol - setCol ||
       currRow - setRow === currCol - setCol ||
       setRow - currRow === setCol - currCol
     ) {
-      console.log("available");
+      console.log("available - bishop");
       return true;
     } else {
-      console.log("not an available move");
+      console.log("not an available move for bishop");
       return false;
     }
   };
 
-  const checkMoveAvailableRook = (currRow, currCol, setRow, setCol) => {
+  const checkMoveAvailableRook = (piece, currRow, currCol, setRow, setCol) => {
+    if (piece.type !== "rook") {
+      return false;
+    }
     if (currRow === setRow || currCol === setCol) {
-      console.log("rook move available");
+      console.log("available - rook");
       return true;
     } else {
-      console.log("rook not available");
+      console.log("not an available move for rook");
       return false;
     }
   };
@@ -208,6 +221,7 @@ const ChessBoard = () => {
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
       ];
+      console.log(selectedPiece);
       const conditionPawn = checkMoveAvailablePawn(
         selectedPiece,
         currRowNr,
@@ -217,12 +231,14 @@ const ChessBoard = () => {
         setColNr
       );
       const conditionBishop = checkMoveAvailableBishop(
+        selectedPiece,
         currRowNr,
         currColNr,
         setRowNr,
         setColNr
       );
       const conditionRook = checkMoveAvailableRook(
+        selectedPiece,
         currRowNr,
         currColNr,
         setRowNr,
@@ -323,6 +339,7 @@ const ChessBoard = () => {
           setColNr
         );
         const conditionBishop = checkMoveAvailableBishop(
+          positionSelected,
           currRowNr,
           currColNr,
           setRowNr,
@@ -330,6 +347,7 @@ const ChessBoard = () => {
         );
 
         const conditionRook = checkMoveAvailableRook(
+          positionSelected,
           currRowNr,
           currColNr,
           setRowNr,
