@@ -35,6 +35,7 @@ const ChessBoard = () => {
 
   const deadKing = kingsArr.find((item) => item.alive === false);
 
+  // piece check moves
   const checkMoveAvailablePawn = (
     piece,
     currRow,
@@ -114,6 +115,20 @@ const ChessBoard = () => {
     return false;
     // }
   };
+  const checkMoveAvailableBishop = (currRow, currCol, setRow, setCol) => {
+    if (
+      currRow - setRow === setCol - currCol ||
+      setRow - currRow === currCol - setCol ||
+      currRow - setRow === currCol - setCol ||
+      setRow - currRow === setCol - currCol
+    ) {
+      console.log("available");
+      return true;
+    } else {
+      console.log("not an available move");
+      return false;
+    }
+  };
 
   const selectPiece = (e) => {
     if (deadKing !== undefined || deadKing === null) {
@@ -183,7 +198,7 @@ const ChessBoard = () => {
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
       ];
-      const condition = checkMoveAvailablePawn(
+      const conditionPawn = checkMoveAvailablePawn(
         selectedPiece,
         currRowNr,
         currColNr,
@@ -191,44 +206,48 @@ const ChessBoard = () => {
         setRowNr,
         setColNr
       );
+      const conditionBishop = checkMoveAvailableBishop(
+        currRowNr,
+        currColNr,
+        setRowNr,
+        setColNr
+      );
 
-      if (!condition) {
-        return;
-      }
-
-      console.log("enemy piece selected");
-      // condition to delete piece
-      if (selectedPiece.color === "white") {
-        whitePlayer.turnToMove = false;
-        blackPlayer.turnToMove = true;
-        const enemyPieceSelected = blackPlayer.pieces.find(
-          (item) => e.target.dataset.pieceName === item.name
-        );
-        enemyPieceSelected.alive = false;
-        selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
-        // remade the other items unselected
-        combinedArr.map((item) => (item.selected = false));
-        console.log("blackPlayer");
-        setSelectedPiece(null);
-        setSelectedPieceHtmlDataset(null);
-        // redefine new the array with the updates
-        setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
-      } else if (selectedPiece.color === "black") {
-        blackPlayer.turnToMove = false;
-        whitePlayer.turnToMove = true;
-        const enemyPieceSelected = whitePlayer.pieces.find(
-          (item) => e.target.dataset.pieceName === item.name
-        );
-        console.log(enemyPieceSelected);
-        enemyPieceSelected.alive = false;
-        selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
-        // remade the other items unselected
-        combinedArr.map((item) => (item.selected = false));
-        console.log("whitePlayer");
-        setSelectedPiece(null);
-        setSelectedPieceHtmlDataset(null);
-        // redefine new the array with the updates
-        setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+      if (conditionPawn || conditionBishop) {
+        console.log("enemy piece selected");
+        // condition to delete piece
+        if (selectedPiece.color === "white") {
+          whitePlayer.turnToMove = false;
+          blackPlayer.turnToMove = true;
+          const enemyPieceSelected = blackPlayer.pieces.find(
+            (item) => e.target.dataset.pieceName === item.name
+          );
+          enemyPieceSelected.alive = false;
+          selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
+          // remade the other items unselected
+          combinedArr.map((item) => (item.selected = false));
+          console.log("blackPlayer");
+          setSelectedPiece(null);
+          setSelectedPieceHtmlDataset(null);
+          // redefine new the array with the updates
+          setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+        } else if (selectedPiece.color === "black") {
+          blackPlayer.turnToMove = false;
+          whitePlayer.turnToMove = true;
+          const enemyPieceSelected = whitePlayer.pieces.find(
+            (item) => e.target.dataset.pieceName === item.name
+          );
+          console.log(enemyPieceSelected);
+          enemyPieceSelected.alive = false;
+          selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
+          // remade the other items unselected
+          combinedArr.map((item) => (item.selected = false));
+          console.log("whitePlayer");
+          setSelectedPiece(null);
+          setSelectedPieceHtmlDataset(null);
+          // redefine new the array with the updates
+          setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+        }
       }
     }
 
@@ -279,7 +298,7 @@ const ChessBoard = () => {
         ];
         console.log(positionSelected);
 
-        const condition = checkMoveAvailablePawn(
+        const conditionPawn = checkMoveAvailablePawn(
           positionSelected,
           currRowNr,
           currColNr,
@@ -287,13 +306,20 @@ const ChessBoard = () => {
           setRowNr,
           setColNr
         );
-        if (!condition) {
-          console.log("condition is false");
+        const conditionBishop = checkMoveAvailableBishop(
+          currRowNr,
+          currColNr,
+          setRowNr,
+          setColNr
+        );
+        if (conditionPawn || conditionBishop) {
+          positionSelected.numericPosition = Number(
+            e.target.dataset.numericPosition
+          );
+        } else {
+          console.log("invalid");
           return;
         }
-        positionSelected.numericPosition = Number(
-          e.target.dataset.numericPosition
-        );
       }
       combinedArr.map((item) => (item.selected = false));
 
