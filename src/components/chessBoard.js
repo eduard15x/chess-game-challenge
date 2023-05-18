@@ -139,7 +139,6 @@ const ChessBoard = () => {
       return false;
     }
   };
-
   const checkMoveAvailableRook = (piece, currRow, currCol, setRow, setCol) => {
     if (piece.type !== "rook") {
       return false;
@@ -152,7 +151,6 @@ const ChessBoard = () => {
       return false;
     }
   };
-
   const checkMoveAvailableKnight = (
     piece,
     currRow,
@@ -178,6 +176,25 @@ const ChessBoard = () => {
       return true;
     } else {
       console.log("not an available move for knight");
+      return false;
+    }
+  };
+  const checkMoveAvailableQueen = (piece, currRow, currCol, setRow, setCol) => {
+    if (piece.type !== "queen") {
+      return false;
+    }
+    if (
+      currRow - setRow === setCol - currCol ||
+      setRow - currRow === currCol - setCol ||
+      currRow - setRow === currCol - setCol ||
+      setRow - currRow === setCol - currCol ||
+      currRow === setRow ||
+      currCol === setCol
+    ) {
+      console.log("available - queen");
+      return true;
+    } else {
+      console.log("not an available move for queen");
       return false;
     }
   };
@@ -280,12 +297,20 @@ const ChessBoard = () => {
         setRowNr,
         setColNr
       );
+      const conditionQueen = checkMoveAvailableQueen(
+        selectedPiece,
+        currRowNr,
+        currColNr,
+        setRowNr,
+        setColNr
+      );
 
       if (
         conditionPawn ||
         conditionBishop ||
         conditionRook ||
-        conditionKnight
+        conditionKnight ||
+        conditionQueen
       ) {
         console.log("enemy piece selected");
         // condition to delete piece
@@ -400,12 +425,20 @@ const ChessBoard = () => {
           setRowNr,
           setColNr
         );
+        const conditionQueen = checkMoveAvailableQueen(
+          selectedPiece,
+          currRowNr,
+          currColNr,
+          setRowNr,
+          setColNr
+        );
 
         if (
           conditionPawn ||
           conditionBishop ||
           conditionRook ||
-          conditionKnight
+          conditionKnight ||
+          conditionQueen
         ) {
           positionSelected.numericPosition = Number(
             e.target.dataset.numericPosition
