@@ -198,6 +198,30 @@ const ChessBoard = () => {
       return false;
     }
   };
+  const checkMoveAvailableKing = (piece, currRow, currCol, setRow, setCol) => {
+    if (piece.type !== "king") {
+      return false;
+    }
+    if (
+      // horizontaly
+      (currRow - setRow === 1 && setCol === currCol) ||
+      (setRow - currRow === 1 && setCol === currCol) ||
+      // vertically
+      (setRow === currRow && currCol - setCol === 1) ||
+      (setRow === currRow && setCol - currCol === 1) ||
+      // diagonal
+      (setRow - currRow === 1 && currCol - setCol === 1) ||
+      (currRow - setRow === 1 && setCol - currCol === 1) ||
+      (currRow - setRow === 1 && currCol - setCol === 1) ||
+      (setRow - currRow === 1 && setCol - currCol === 1)
+    ) {
+      console.log("available - king");
+      return true;
+    } else {
+      console.log("not an available move for king");
+      return false;
+    }
+  };
 
   const selectPiece = (e) => {
     if (deadKing !== undefined || deadKing === null) {
@@ -304,13 +328,21 @@ const ChessBoard = () => {
         setRowNr,
         setColNr
       );
+      const conditionKing = checkMoveAvailableKing(
+        selectedPiece,
+        currRowNr,
+        currColNr,
+        setRowNr,
+        setColNr
+      );
 
       if (
         conditionPawn ||
         conditionBishop ||
         conditionRook ||
         conditionKnight ||
-        conditionQueen
+        conditionQueen ||
+        conditionKing
       ) {
         console.log("enemy piece selected");
         // condition to delete piece
@@ -432,13 +464,21 @@ const ChessBoard = () => {
           setRowNr,
           setColNr
         );
+        const conditionKing = checkMoveAvailableKing(
+          selectedPiece,
+          currRowNr,
+          currColNr,
+          setRowNr,
+          setColNr
+        );
 
         if (
           conditionPawn ||
           conditionBishop ||
           conditionRook ||
           conditionKnight ||
-          conditionQueen
+          conditionQueen ||
+          conditionKing
         ) {
           positionSelected.numericPosition = Number(
             e.target.dataset.numericPosition
