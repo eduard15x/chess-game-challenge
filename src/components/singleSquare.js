@@ -10,10 +10,13 @@ const SingleSquare = ({
   handleMove,
   row,
   col,
+  showValidMoves,
 }) => {
+  const checkMoves = showValidMoves.find((item) => item === `${row},${col}`);
+
   return (
     <div
-      className={color}
+      className={`${color} ${checkMoves ? "possible" : ""}`}
       data-alphabetical-position={namePosition}
       data-numeric-position={numericPosition}
       onClick={handleMove}

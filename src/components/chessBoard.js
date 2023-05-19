@@ -18,6 +18,7 @@ const ChessBoard = () => {
   const [whitePlayer, setWhitePlayer] = useState(WhitePlayer);
   const [blackPlayer, setBlackPlayer] = useState(BlackPlayer);
   const [isTurn, setIsTurn] = useState(whitePlayer.turnToMove);
+  const [showValidMoves, setShowValidMoves] = useState([]);
 
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [selectedPieceHtmlDataset, setSelectedPieceHtmlDataset] =
@@ -34,6 +35,34 @@ const ChessBoard = () => {
   );
 
   const deadKing = kingsArr.find((item) => item.alive === false);
+
+  // pice show moves option
+  const checkMovesOptions = (piece, currRow, currCol, setState) => {
+    if (piece.type !== "queen") {
+      return;
+    }
+    let array = [];
+
+    for (let row = 1; row <= 8; row++) {
+      for (let col = 1; col <= 8; col++) {
+        if (currRow - row === col - currCol) array.push(`${row},${col}`);
+        if (row - currRow === currCol - col) array.push(`${row},${col}`);
+        if (currRow - row === currCol - col) array.push(`${row},${col}`);
+        if (row - currRow === col - currCol) array.push(`${row},${col}`);
+        if (currRow === row) array.push(`${row},${col}`);
+        if (currCol === col) array.push(`${row},${col}`);
+      }
+    }
+
+    const filteredArray = array.filter(
+      (item, index) =>
+        item !== `${currRow},${currCol}` && array.indexOf(item) === index
+    );
+
+    if (typeof setState === "function") {
+      setState(filteredArray);
+    }
+  };
 
   // piece check moves
   const checkMoveAvailablePawn = (
@@ -183,6 +212,29 @@ const ChessBoard = () => {
     if (piece.type !== "queen") {
       return false;
     }
+
+    // let array = [];
+    // for (let row = 1; row <= 8; row++) {
+    //   for (let col = 1; col <= 8; col++) {
+    //     if (currRow - row === col - currCol) array.push(`${row},${col}`);
+    //     if (row - currRow === currCol - col) array.push(`${row},${col}`);
+    //     if (currRow - row === currCol - col) array.push(`${row},${col}`);
+    //     if (row - currRow === col - currCol) array.push(`${row},${col}`);
+    //     if (currRow === row) array.push(`${row},${col}`);
+    //     if (currCol === col) array.push(`${row},${col}`);
+    //   }
+    // }
+
+    // const xxx = array.filter(
+    //   (item, index) =>
+    //     item !== `${currRow},${currCol}` && array.indexOf(item) === index
+    // );
+
+    // if (typeof setX === "function") {
+    //   setX(xxx);
+    // }
+    // console.log(typeof setX);
+
     if (
       currRow - setRow === setCol - currCol ||
       setRow - currRow === currCol - setCol ||
@@ -227,6 +279,7 @@ const ChessBoard = () => {
     if (deadKing !== undefined || deadKing === null) {
       return;
     }
+
     // condition for selecting item
     if (
       e.target.dataset.pieceColor === "white" &&
@@ -236,12 +289,11 @@ const ChessBoard = () => {
       if (whitePlayer.turnToMove) {
         whitePlayer.turnToMove = false;
         blackPlayer.turnToMove = true;
-        update();
-        console.log("da");
       } else {
         alert("blackPlayer Turn");
         return;
       }
+      update();
     }
 
     // condition for selecting item
@@ -253,12 +305,11 @@ const ChessBoard = () => {
       if (blackPlayer.turnToMove) {
         blackPlayer.turnToMove = false;
         whitePlayer.turnToMove = true;
-        update();
-        console.log("dac");
       } else {
         alert("whitePlayer Turn");
         return;
       }
+      update();
     }
 
     // condition after piece is selected, then select same piece
@@ -336,6 +387,7 @@ const ChessBoard = () => {
         setColNr
       );
 
+      // TODO I think this is unnecessary for
       if (
         conditionPawn ||
         conditionBishop ||
@@ -382,8 +434,7 @@ const ChessBoard = () => {
     }
 
     function update() {
-      console.log(selectedPiece);
-
+      setShowValidMoves([]);
       // set state for array with new values of player objects
       setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
       console.log("da");
@@ -397,6 +448,14 @@ const ChessBoard = () => {
       pieceClicked.selected = true;
       setSelectedPiece(pieceClicked);
       setSelectedPieceHtmlDataset(e.target.dataset);
+
+      checkMovesOptions(
+        pieceClicked,
+        Number(e.target.dataset.row),
+        Number(e.target.dataset.col),
+        setShowValidMoves
+      );
+      console.log(pieceClicked);
     }
   };
 
@@ -494,6 +553,7 @@ const ChessBoard = () => {
       // unselect the piece after move ended
       // redefine new the array with the updates
       setIsTurn(whitePlayer.turnToMove);
+      setShowValidMoves([]);
       setSelectedPiece(null);
       setSelectedPieceHtmlDataset(null);
       positionSelected.startPosition = false;
@@ -505,8 +565,8 @@ const ChessBoard = () => {
   //   if (deadKing !== undefined) {
   //     alert(deadKing.color === "white" ? "Black Won" : "White Won");
   //   }
-  // }, [combinedArr]);
 
+  // }, [showValidMoves, deadKing, selectedPiece]);
   return (
     <div className="chess-board">
       {ROWS.map((row) => (
@@ -528,6 +588,7 @@ const ChessBoard = () => {
               handleMove={handleMove}
               row={row}
               col={COLS.indexOf(col) + 1}
+              showValidMoves={showValidMoves}
             />
           ))}
         </div>
