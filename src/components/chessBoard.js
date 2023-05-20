@@ -8,7 +8,14 @@ import { WhitePlayer } from "../models/whitePlayer";
 import { getNumericPosition } from "../utils/getNumericPosition";
 import SingleSquare from "./singleSquare";
 import PlayerDetails from "./playerDetails";
-import { checkMovesOptionsQueen } from "../utils/getSelectedPieceOptions";
+import {
+  checkMovesOptionsPawn,
+  checkMovesOptionsBishop,
+  checkMovesOptionsKnight,
+  checkMovesOptionsRook,
+  checkMovesOptionsQueen,
+  checkMovesOptionsKing,
+} from "../utils/getSelectedPieceOptions";
 import {
   checkMoveAvailablePawn,
   checkMoveAvailableBishop,
@@ -219,7 +226,38 @@ const ChessBoard = () => {
       setSelectedPiece(pieceClicked);
       setSelectedPieceHtmlDataset(e.target.dataset);
 
+      checkMovesOptionsPawn(
+        pieceClicked,
+        Number(e.target.dataset.row),
+        Number(e.target.dataset.col),
+        setShowValidMoves,
+        e.target.classList.contains("piece-img")
+      );
+      checkMovesOptionsBishop(
+        pieceClicked,
+        Number(e.target.dataset.row),
+        Number(e.target.dataset.col),
+        setShowValidMoves
+      );
+      checkMovesOptionsKnight(
+        pieceClicked,
+        Number(e.target.dataset.row),
+        Number(e.target.dataset.col),
+        setShowValidMoves
+      );
+      checkMovesOptionsRook(
+        pieceClicked,
+        Number(e.target.dataset.row),
+        Number(e.target.dataset.col),
+        setShowValidMoves
+      );
       checkMovesOptionsQueen(
+        pieceClicked,
+        Number(e.target.dataset.row),
+        Number(e.target.dataset.col),
+        setShowValidMoves
+      );
+      checkMovesOptionsKing(
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
