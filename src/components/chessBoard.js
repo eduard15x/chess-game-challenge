@@ -71,6 +71,15 @@ const ChessBoard = () => {
         return;
       }
       update();
+    } else if (
+      // condition after piece is selected, then select another piece with same color
+      e.target.classList.contains("piece-img") &&
+      selectedPiece !== null &&
+      e.target.dataset.pieceName !== selectedPiece.name &&
+      e.target.dataset.pieceColor === selectedPiece.color
+    ) {
+      console.log("another piece with same color selected");
+      update();
     }
 
     // condition for selecting item
@@ -87,6 +96,15 @@ const ChessBoard = () => {
         return;
       }
       update();
+    } else if (
+      // condition after piece is selected, then select another piece with same color
+      e.target.classList.contains("piece-img") &&
+      selectedPiece !== null &&
+      e.target.dataset.pieceName !== selectedPiece.name &&
+      e.target.dataset.pieceColor === selectedPiece.color
+    ) {
+      console.log("another piece with same color selected");
+      update();
     }
 
     // condition after piece is selected, then select same piece
@@ -97,16 +115,8 @@ const ChessBoard = () => {
     ) {
       console.log("select the same");
       return;
-      // condition after piece is selected, then select another piece with same color
     } else if (
-      e.target.classList.contains("piece-img") &&
-      selectedPiece !== null &&
-      e.target.dataset.pieceName !== selectedPiece.name &&
-      e.target.dataset.pieceColor === selectedPiece.color
-    ) {
-      console.log("same color");
       // condition after piece is selected, then select another enemy piece, different color
-    } else if (
       e.target.classList.contains("piece-img") &&
       selectedPiece !== null &&
       e.target.dataset.pieceName !== selectedPiece.name &&
@@ -230,8 +240,7 @@ const ChessBoard = () => {
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
-        setShowValidMoves,
-        e.target.classList.contains("piece-img")
+        setShowValidMoves
       );
       checkMovesOptionsBishop(
         pieceClicked,
