@@ -4,7 +4,6 @@ export const checkMovesOptionsPawn = (
   currRow,
   currCol,
   setState,
-  nextPos = false,
   currentBoard
 ) => {
   if (piece.type !== "pawn") {
@@ -14,43 +13,72 @@ export const checkMovesOptionsPawn = (
 
   for (let row = 1; row <= 8; row++) {
     for (let col = 1; col <= 8; col++) {
-      if (nextPos) {
-        if (piece.color === "black") {
-          if (currRow - row === 1 && Math.abs(currCol - col) === 1)
+      if (piece.color === "black") {
+        if (currRow - row === 1 && Math.abs(currCol - col) === 1) {
+          const targetPiece = currentBoard[row - 1][col - 1];
+          if (targetPiece && targetPiece.color !== piece.color) {
             array.push(`${row},${col}`);
+          }
         }
+      }
 
-        if (piece.color === "white") {
-          if (currRow - row === 1 && Math.abs(currCol - col) === 1)
+      if (piece.color === "white") {
+        if (row - currRow === 1 && Math.abs(currCol - col) === 1) {
+          const targetPiece = currentBoard[row - 1][col - 1];
+          if (targetPiece && targetPiece.color !== piece.color) {
             array.push(`${row},${col}`);
+          }
         }
-      } else if (!nextPos) {
-        // check if pawn is at first position, let him move 2
-        if (piece.color === "black") {
-          if (piece.startPosition && currCol - col === 0 && currRow - row === 1)
-            array.push(`${row},${col}`);
-          if (piece.startPosition && currCol - col === 0 && currRow - row === 2)
-            array.push(`${row},${col}`);
-          if (
-            !piece.startPosition &&
-            currRow - row === 1 &&
-            currCol - col === 0
-          )
-            array.push(`${row},${col}`);
-        }
+      }
+      // check if pawn is at first position, let him move 2
+      if (piece.color === "black") {
+        if (
+          piece.startPosition &&
+          currCol - col === 0 &&
+          currRow - row === 1 &&
+          !currentBoard[row - 1][col - 1]
+        )
+          array.push(`${row},${col}`);
+        if (
+          piece.startPosition &&
+          currCol - col === 0 &&
+          currRow - row === 2 &&
+          !currentBoard[row - 1][col - 1] &&
+          !currentBoard[row][col - 1]
+        )
+          array.push(`${row},${col}`);
+        if (
+          !piece.startPosition &&
+          currRow - row === 1 &&
+          currCol - col === 0 &&
+          !currentBoard[row - 1][col - 1] // check target position if empty
+        )
+          array.push(`${row},${col}`);
+      }
 
-        if (piece.color === "white") {
-          if (piece.startPosition && row - currRow === 1 && currCol - col === 0)
-            array.push(`${row},${col}`);
-          if (piece.startPosition && row - currRow === 2 && currCol - col === 0)
-            array.push(`${row},${col}`);
-          if (
-            !piece.startPosition &&
-            row - currRow === 1 &&
-            currCol - col === 0
-          )
-            array.push(`${row},${col}`);
-        }
+      if (piece.color === "white") {
+        if (
+          piece.startPosition &&
+          row - currRow === 1 &&
+          currCol - col === 0 &&
+          !currentBoard[row - 1][col - 1]
+        )
+          array.push(`${row},${col}`);
+        if (
+          piece.startPosition &&
+          row - currRow === 2 &&
+          currCol - col === 0 &&
+          !currentBoard[row - 1][col - 1] &&
+          !currentBoard[row - 2][col - 1]
+        )
+          array.push(`${row},${col}`);
+        if (
+          !piece.startPosition &&
+          row - currRow === 1 &&
+          currCol - col === 0 &&
+          !currentBoard[row - 1][col - 1] // check target position if empty
+        )
+          array.push(`${row},${col}`);
       }
     }
   }
