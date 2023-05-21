@@ -380,21 +380,15 @@ export const checkMovesOptionsKing = (
 
   for (let row = 1; row <= 8; row++) {
     for (let col = 1; col <= 8; col++) {
-      // horizontaly
-      if (currRow - row === 1 && col === currCol) array.push(`${row},${col}`);
-      if (row - currRow === 1 && col === currCol) array.push(`${row},${col}`);
-      // vertically
-      if (row === currRow && currCol - col === 1) array.push(`${row},${col}`);
-      if (row === currRow && col - currCol === 1) array.push(`${row},${col}`);
-      // diagonal
-      if (row - currRow === 1 && currCol - col === 1)
+      const targetPiece = currentBoard[row - 1][col - 1];
+      if (
+        Math.abs(currRow - row) <= 1 &&
+        Math.abs(currCol - col) <= 1 && // horizontally, vertically, and diagonally adjacent positions
+        !(currRow === row && currCol === col) && // exclude the current position
+        (!targetPiece || targetPiece.color !== piece.color) // exclude positions with the same piece color
+      ) {
         array.push(`${row},${col}`);
-      if (currRow - row === 1 && col - currCol === 1)
-        array.push(`${row},${col}`);
-      if (currRow - row === 1 && currCol - col === 1)
-        array.push(`${row},${col}`);
-      if (row - currRow === 1 && col - currCol === 1)
-        array.push(`${row},${col}`);
+      }
     }
   }
 

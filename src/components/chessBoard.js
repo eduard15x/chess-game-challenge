@@ -46,6 +46,17 @@ const ChessBoard = () => {
   ]);
   // TODO const [positionArray, setPositionArray]
 
+  // TODO -----------------------------------------------------------
+  let matrix = [];
+
+  for (let i = 0; i < 8; i++) {
+    let rowArr = [];
+    matrix.push(rowArr);
+    for (let x = 1; x <= 8; x++) {
+      rowArr.push(null);
+    }
+  }
+
   const kingsArr = combinedArr.filter(
     (item) => item.name === "White King" || item.name === "Black King"
   );
@@ -240,37 +251,43 @@ const ChessBoard = () => {
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
-        setShowValidMoves
+        setShowValidMoves,
+        matrix
       );
       checkMovesOptionsBishop(
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
-        setShowValidMoves
+        setShowValidMoves,
+        matrix
       );
       checkMovesOptionsKnight(
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
-        setShowValidMoves
+        setShowValidMoves,
+        matrix
       );
       checkMovesOptionsRook(
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
-        setShowValidMoves
+        setShowValidMoves,
+        matrix
       );
       checkMovesOptionsQueen(
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
-        setShowValidMoves
+        setShowValidMoves,
+        matrix
       );
       checkMovesOptionsKing(
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
-        setShowValidMoves
+        setShowValidMoves,
+        matrix
       );
       console.log(pieceClicked);
     }
@@ -378,12 +395,25 @@ const ChessBoard = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (deadKing !== undefined) {
-  //     alert(deadKing.color === "white" ? "Black Won" : "White Won");
-  //   }
+  useEffect(() => {
+    if (deadKing !== undefined) {
+      alert(deadKing.color === "white" ? "Black Won" : "White Won");
+    }
 
-  // }, [showValidMoves, deadKing, selectedPiece]);
+    const piecesCheck = document.querySelectorAll(
+      ".chess-board__piece-img.piece-img"
+    );
+    for (let square of piecesCheck) {
+      let rowMatrix = Number(square.dataset.row);
+      let colMatrix = Number(square.dataset.col);
+      matrix[rowMatrix - 1][colMatrix - 1] = {
+        row: square.dataset.row,
+        col: square.dataset.col,
+        color: square.dataset.pieceColor,
+      };
+    }
+  }, [showValidMoves, deadKing, selectedPiece, matrix]);
+  console.log(matrix);
   return (
     <div className="chess-board">
       {ROWS.map((row) => (
