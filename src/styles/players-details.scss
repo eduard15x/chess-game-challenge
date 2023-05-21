@@ -1,27 +1,61 @@
 .players-details {
-  position: absolute;
-  top: -155px;
+  position: initial;
   display: flex;
   justify-content: space-evenly;
-  width: 640px;
+  width: 360px;
+  top: 0px;
+
+  &--white {
+    position: absolute;
+    top: -40%;
+    transform: translateY(-50%);
+  }
+
+  &--black {
+    position: absolute;
+    top: 140%;
+    transform: translateY(-50%);
+  }
+
+  @include breakpoint(mobileCustom) {
+    width: 480px;
+
+    position: absolute;
+    top: -130px;
+
+    &--white {
+      position: unset;
+      top: unset;
+      transform: none;
+    }
+
+    &--black {
+      position: unset;
+      top: unset;
+      transform: none;
+    }
+  }
+  @include breakpoint(tabletSmall) {
+    width: 640px;
+  }
+
+  @include breakpoint(desktop) {
+    top: -130px;
+    width: 720px;
+  }
 
   h2 {
     text-align: center;
-    margin: 0px;
-    padding: 0px;
-  }
-
-  .turn {
-    color: red;
   }
 
   .total-score {
-    margin-bottom: 10px;
+    font-weight: bold;
+    margin-bottom: 8px;
     text-align: center;
   }
 
   &__single-player-info {
-    border: 1px solid black;
+    border: $border-solid-dark;
     padding: 2px 4px;
 
     img {

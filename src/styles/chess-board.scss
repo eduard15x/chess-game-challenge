@@ -1,0 +1,128 @@
+.chess-board {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border: $border-solid-dark-bold;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  @include breakpoint(mobileCustom) {
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: none;
+    margin-top: 180px;
+    width: 480px;
+    height: 480px;
+  }
+  @include breakpoint(tabletSmall) {
+    width: 640px;
+    height: 640px;
+  }
+  @include breakpoint(desktop) {
+    width: 720px;
+    height: 720px;
+    margin-top: 140px;
+  }
+
+  &__piece-img {
+    width: 36px;
+    height: 36px;
+    padding: 12px;
+    cursor: pointer;
+
+    @include breakpoint(mobileCustom) {
+      width: 46px;
+      height: 46px;
+    }
+    @include breakpoint(tabletSmall) {
+      width: 56px;
+      height: 56px;
+    }
+    @include breakpoint(desktop) {
+      width: 66px;
+      height: 66px;
+    }
+
+    &:hover {
+      scale: 1.3;
+    }
+  }
+
+  .piece-selected {
+    scale: 1.3;
+    background-color: $bg-color-square-orange;
+    padding: 0px;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .dark,
+  .white {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include breakpoint(mobileCustom) {
+      width: 60px;
+      height: 60px;
+    }
+    @include breakpoint(tabletSmall) {
+      width: 80px;
+      height: 80px;
+    }
+    @include breakpoint(desktop) {
+      width: 90px;
+      height: 90px;
+    }
+
+    &:active {
+      filter: brightness(0.8);
+    }
+  }
+
+  .dark {
+    color: $color-square-gray;
+    background-color: $bg-color-square-gray;
+  }
+
+  .white {
+    color: $color-square-beige;
+    background-color: $bg-color-square-beige;
+  }
+
+  .possible {
+    padding: -5px;
+  }
+
+  .single-square {
+    position: relative;
+  }
+
+  .valid-moves {
+    box-sizing: border-box;
+    position: absolute;
+    border: $border-solid-orange;
+  }
+  .v1 {
+    top: 0px;
+    width: 100%;
+  }
+  .v2 {
+    right: 0px;
+    height: 100%;
+  }
+  .v3 {
+    bottom: 0px;
+    width: 100%;
+  }
+  .v4 {
+    left: 0px;
+    height: 100%;
+  }
+}

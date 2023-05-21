@@ -1,0 +1,111 @@
+@use "sass:math";
+
+// Breakpoints
+$xx-small: 320px;
+$x-small-custom: 490px;
+$x-small: 595px;
+$small: 768px;
+$x-medium: 840px;
+$medium: 975px;
+$mid: 1080px;
+$large: 1280px;
+$max: 1440px;
+$xxlarge: 1600px;
+$x-medium: 860px;
+
+@mixin breakpoint($point) {
+  // for xlarge desktop layouts
+  @if $point == desktopLarge {
+    @media (min-width: $xxlarge) {
+      @content;
+    }
+  }
+  // for large desktop layouts
+  @if $point == desktop {
+    @media (min-width: $max) {
+      @content;
+    }
+  }
+  // for regular desktop layouts
+  @if $point == desktopSmall {
+    @media (min-width: $large) {
+      @content;
+    }
+  }
+  // for small desktop layouts
+  @if $point == middleViewport {
+    @media (min-width: $mid) {
+      @content;
+    }
+  } // for small desktop layouts
+  @if $point == customBreakpointCarousel {
+    @media (min-width: $x-medium) {
+      @content;
+    }
+  }
+  // all encompassing mobile + tablet: everything < 975px
+  // @if $point == tablet {
+  //     @media (max-width: $medium) { @content; }
+  // }
+  // tablet
+  // large tablet layouts
+  @if $point == tablet {
+    @media (min-width: $medium) {
+      @content;
+    }
+  }
+  // regular tablet layouts
+  // layouts > 768px
+  @if $point == tabletSmall {
+    @media (min-width: $small) {
+      @content;
+    }
+  }
+  // all encompassing mobile: everything < 768px
+  // @if $point == mobile {
+  //     @media (max-width: $small)  { @content; }
+  // }
+  // for medium mobile layouts > 595px
+  @if $point == mobile {
+    @media (min-width: $x-small) {
+      @content;
+    }
+  }
+  // for medium mobile layouts > 490px
+  @if $point == mobileCustom {
+    @media (min-width: $x-small-custom) {
+      @content;
+    }
+  }
+  // for very small viewports > 320px
+  @if $point == mobileSmall {
+    @media (min-width: $xx-small) {
+      @content;
+    }
+  }
+
+  // Orientation
+  @if $point == landscape {
+    @media (orientation: landscape) {
+      @content;
+    }
+  }
+  @if $point == portrait {
+    @media (orientation: portrait) {
+      @content;
+    }
+  }
+
+  // Small height landscape devices: small screens
+  @if $point == maxLandscapeHeight {
+    @media (orientation: landscape) and (max-height: 740px) {
+      @content;
+    }
+  }
+
+  @if $point == maxMobileLandscapeHeight {
+    @media (orientation: landscape) and (max-height: 376px) {
+      @content;
+    }
+  }
+}

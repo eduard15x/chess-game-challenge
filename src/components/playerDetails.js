@@ -26,7 +26,7 @@ const PlayerDetails = ({ turn, whitePlayer, blackPlayer }) => {
 
   return (
     <div className="players-details">
-      <div>
+      <div className="players-details--white">
         <h2 className={turn ? "turn" : ""}>White Player</h2>
         {/* Show score */}
         <p className="total-score">Score {whitePlayer.score}</p>
@@ -34,7 +34,7 @@ const PlayerDetails = ({ turn, whitePlayer, blackPlayer }) => {
         <PiecesTaken piecesTakenArr={takenBlackPiecesArr} />
       </div>
 
-      <div>
+      <div className="players-details--black">
         <h2 className={!turn ? "turn" : ""}>Black Player</h2>
         {/* Show score */}
         <p className="total-score">Score {blackPlayer.score}</p>

@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-// player models
-import { BlackPlayer } from "../models/blackPlayer";
-import { WhitePlayer } from "../models/whitePlayer";
 // components
 import BoardDetails from "./boardDetails";
 import SingleSquare from "./singleSquare";
@@ -10,21 +7,14 @@ import PlayerDetails from "./playerDetails";
 import { getNumericPosition } from "../utils/getNumericPosition";
 import { checkMovesOptions } from "../utils/checkValidMoves";
 
-const ChessBoard = () => {
+const ChessBoard = ({ whitePlayer, blackPlayer, isTurn, setIsTurn }) => {
   // variable
   const ROWS = [1, 2, 3, 4, 5, 6, 7, 8];
   const COLS = ["a", "b", "c", "d", "e", "f", "g", "h"];
-
   // states
-  const whitePlayer = WhitePlayer;
-  const blackPlayer = BlackPlayer;
-  const [isTurn, setIsTurn] = useState(whitePlayer.turnToMove);
   const [showValidMoves, setShowValidMoves] = useState([]);
-
   const [selectedPiece, setSelectedPiece] = useState(null);
-  const [selectedPieceHtmlDataset, setSelectedPieceHtmlDataset] =
-    useState(null);
-
+  const [selectedDataset, setSelectedDataset] = useState(null);
   const [combinedArr, setCombinedArr] = useState([
     ...whitePlayer.pieces,
     ...blackPlayer.pieces,
@@ -50,7 +40,6 @@ const ChessBoard = () => {
     if (deadKing !== undefined || deadKing === null) {
       return;
     }
-
     // condition for selecting item
     if (
       e.target.dataset.pieceColor === "white" &&
@@ -117,15 +106,15 @@ const ChessBoard = () => {
       const pieceSelected = combinedArr.find((item) => {
         return item.selected;
       });
-
+      // check valid moves
       checkMovesOptions(
         pieceSelected,
-        Number(selectedPieceHtmlDataset.row),
-        Number(selectedPieceHtmlDataset.col),
+        Number(selectedDataset.row),
+        Number(selectedDataset.col),
         setShowValidMoves,
         matrix
       );
-
+      // set valid moves based on the row and column of the piece
       const existValidPosition = showValidMoves.find(
         (item) => item === `${e.target.dataset.row},${e.target.dataset.col}`
       );
@@ -154,7 +143,7 @@ const ChessBoard = () => {
         // remade the other items unselected
         combinedArr.map((item) => (item.selected = false));
         setSelectedPiece(null);
-        setSelectedPieceHtmlDataset(null);
+        setSelectedDataset(null);
         // redefine new the array with the updates
         setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
         setShowValidMoves([]);
@@ -165,7 +154,6 @@ const ChessBoard = () => {
       setShowValidMoves([]);
       // set state for array with new values of player objects
       setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
-
       // remade the other items unselected
       combinedArr.map((item) => (item.selected = false));
       // make the clicked item selected
@@ -174,8 +162,7 @@ const ChessBoard = () => {
       );
       pieceClicked.selected = true;
       setSelectedPiece(pieceClicked);
-      setSelectedPieceHtmlDataset(e.target.dataset);
-
+      setSelectedDataset(e.target.dataset);
       // show available moves
       checkMovesOptions(
         pieceClicked,
@@ -224,14 +211,11 @@ const ChessBoard = () => {
       }
       combinedArr.map((item) => (item.selected = false));
 
-      // set turn
-      // unselect the piece after move ended
-      // redefine new the array with the updates
-
+      // set turn - reset valid moves array - deselect current selected piece - for the moved piece, change start position prop
       setIsTurn(whitePlayer.turnToMove);
       setShowValidMoves([]);
       setSelectedPiece(null);
-      setSelectedPieceHtmlDataset(null);
+      setSelectedDataset(null);
       positionSelected.startPosition = false;
       setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
     }
@@ -259,6 +243,11 @@ const ChessBoard = () => {
   }, [showValidMoves, deadKing, selectedPiece, matrix]);
   return (
     <div className="chess-board">
+      <PlayerDetails
+        turn={isTurn}
+        whitePlayer={whitePlayer}
+        blackPlayer={blackPlayer}
+      />
       {ROWS.map((row) => (
         <div key={`${row}row`} className={`${row} row`}>
           {COLS.map((col, colIndex) => (
@@ -285,11 +274,6 @@ const ChessBoard = () => {
       ))}
       <BoardDetails array={ROWS} direction="col" />
       <BoardDetails array={COLS} direction="row" />
-      <PlayerDetails
-        turn={isTurn}
-        whitePlayer={whitePlayer}
-        blackPlayer={blackPlayer}
-      />
     </div>
   );
 };

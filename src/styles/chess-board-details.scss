@@ -4,23 +4,59 @@
   text-align: center;
 
   &--row {
+    display: none;
     flex-direction: row;
     justify-content: space-around;
-    width: 640px;
-    bottom: -50px;
+    width: 480px;
+    bottom: -40px;
   }
 
   &--col {
+    display: none;
     flex-direction: column;
     justify-content: space-around;
-    height: 640px;
-    left: -50px;
+    height: 480px;
+    left: -40px;
     top: 0px;
   }
 
   &__item {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
+  }
+
+  @include breakpoint(mobileCustom) {
+    &--row {
+      display: flex;
+    }
+
+    &--col {
+      display: flex;
+    }
+  }
+
+  @include breakpoint(tabletSmall) {
+    &--row {
+      width: 640px;
+    }
+
+    &--col {
+      height: 640px;
+    }
+
+    &__item {
+      font-size: 22px;
+    }
+  }
+
+  @include breakpoint(desktop) {
+    &--row {
+      width: 720px;
+    }
+
+    &--col {
+      height: 720px;
+    }
   }
 }
