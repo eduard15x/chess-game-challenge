@@ -2,7 +2,7 @@
 This is a chess game full responsive, created from scratch by myself without any tutorials/help.
 The game is not online yet, you have to make moves for both sides.
 Below you can see a short demo of it.
-https://github.com/eduard15x/chess-game-challenge/assets/89576994/efd5ef89-5389-4366-a2a8-29d44022ef81
+![chess game demo](https://github.com/eduard15x/chess-game-challenge/assets/89576994/3e42c927-985b-433f-bdff-57057d4849b8)
 
 ## TODO
 ### `When in check, only moves that remove the king from attack are permitted`
