@@ -1,14 +1,11 @@
 // pice show moves option
-export const checkMovesOptionsPawn = (
+const checkAvailableMovesPawn = (
   piece,
   currRow,
   currCol,
   setState,
   currentBoard
 ) => {
-  if (piece.type !== "pawn") {
-    return;
-  }
   let array = [];
 
   for (let row = 1; row <= 8; row++) {
@@ -93,16 +90,13 @@ export const checkMovesOptionsPawn = (
   }
 };
 
-export const checkMovesOptionsBishop = (
+const checkAvailableMovesBishop = (
   piece,
   currRow,
   currCol,
   setState,
   currentBoard
 ) => {
-  if (piece.type !== "bishop") {
-    return;
-  }
   let array = [];
 
   for (let row = 1; row <= 8; row++) {
@@ -154,16 +148,13 @@ export const checkMovesOptionsBishop = (
   }
 };
 
-export const checkMovesOptionsKnight = (
+const checkAvailableMovesKnight = (
   piece,
   currRow,
   currCol,
   setState,
   currentBoard
 ) => {
-  if (piece.type !== "knight") {
-    return;
-  }
   let array = [];
 
   for (let row = 1; row <= 8; row++) {
@@ -196,16 +187,13 @@ export const checkMovesOptionsKnight = (
   }
 };
 
-export const checkMovesOptionsRook = (
+const checkAvailableMovesRook = (
   piece,
   currRow,
   currCol,
   setState,
   currentBoard
 ) => {
-  if (piece.type !== "rook") {
-    return;
-  }
   let array = [];
 
   for (let row = 1; row <= 8; row++) {
@@ -264,16 +252,13 @@ export const checkMovesOptionsRook = (
   }
 };
 
-export const checkMovesOptionsQueen = (
+const checkAvailableMovesQueen = (
   piece,
   currRow,
   currCol,
   setState,
   currentBoard
 ) => {
-  if (piece.type !== "queen") {
-    return;
-  }
   let array = [];
   for (let row = 1; row <= 8; row++) {
     for (let col = 1; col <= 8; col++) {
@@ -366,16 +351,13 @@ export const checkMovesOptionsQueen = (
   }
 };
 
-export const checkMovesOptionsKing = (
+const checkAvailableMovesKing = (
   piece,
   currRow,
   currCol,
   setState,
   currentBoard
 ) => {
-  if (piece.type !== "king") {
-    return;
-  }
   let array = [];
 
   for (let row = 1; row <= 8; row++) {
@@ -385,11 +367,37 @@ export const checkMovesOptionsKing = (
         Math.abs(currRow - row) <= 1 &&
         Math.abs(currCol - col) <= 1 && // horizontally, vertically, and diagonally adjacent positions
         !(currRow === row && currCol === col) && // exclude the current position
-        (!targetPiece || targetPiece.color !== piece.color) // exclude positions with the same piece color
+        (!targetPiece || targetPiece.color !== piece.color) &&
+        !isPositionBetweenKings(currRow, currCol, row, col, currentBoard) // exclude positions with 1 square between other kings) // exclude positions with the same piece color
       ) {
         array.push(`${row},${col}`);
       }
     }
+  }
+
+  function isPositionBetweenKings(
+    currRow,
+    currCol,
+    targetRow,
+    targetCol,
+    currentBoard
+  ) {
+    // Check for kings in the 3x3 grid centered at the target position
+    for (let row = targetRow - 1; row <= targetRow + 1; row++) {
+      for (let col = targetCol - 1; col <= targetCol + 1; col++) {
+        if (
+          row >= 1 && // check if the position is within the board boundaries
+          row <= 8 &&
+          row >= 1 &&
+          row <= 8 &&
+          (row !== currRow || col !== currCol) && // exclude the current king position
+          currentBoard[row - 1][col - 1]?.type === "king" // check if there is a king at the position
+        ) {
+          return true; // position has a king between the current king and the target position
+        }
+      }
+    }
+    return false; // no king found between the current king and the target position
   }
 
   const filteredArray = array.filter(
@@ -399,5 +407,48 @@ export const checkMovesOptionsKing = (
 
   if (typeof setState === "function") {
     setState(filteredArray);
+  }
+};
+
+export const checkMovesOptions = (
+  piece,
+  currRow,
+  currCol,
+  setState,
+  currentBoard
+) => {
+  switch (piece.type) {
+    case "pawn":
+      checkAvailableMovesPawn(piece, currRow, currCol, setState, currentBoard);
+      break;
+    case "bishop":
+      checkAvailableMovesBishop(
+        piece,
+        currRow,
+        currCol,
+        setState,
+        currentBoard
+      );
+      break;
+    case "knight":
+      checkAvailableMovesKnight(
+        piece,
+        currRow,
+        currCol,
+        setState,
+        currentBoard
+      );
+      break;
+    case "rook":
+      checkAvailableMovesRook(piece, currRow, currCol, setState, currentBoard);
+      break;
+    case "queen":
+      checkAvailableMovesQueen(piece, currRow, currCol, setState, currentBoard);
+      break;
+    case "king":
+      checkAvailableMovesKing(piece, currRow, currCol, setState, currentBoard);
+      break;
+    default:
+      break;
   }
 };

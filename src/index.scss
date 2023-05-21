@@ -43,8 +43,8 @@ code {
 
   .piece-selected {
     scale: 1.3;
-    background-color: red;
-    padding: 2px;
+    background-color: #f07705;
+    padding: 0px;
   }
 
   .row {
@@ -75,6 +75,32 @@ code {
   }
 
   .possible {
-    background-color: blueviolet;
+    padding: -5px;
+  }
+
+  .single-square {
+    position: relative;
+  }
+
+  .valid-moves {
+    box-sizing: border-box;
+    position: absolute;
+    border: 1px solid #f07705;
+  }
+  .v1 {
+    top: 0px;
+    width: 100%;
+  }
+  .v2 {
+    right: 0px;
+    height: 100%;
+  }
+  .v3 {
+    bottom: 0px;
+    width: 100%;
+  }
+  .v4 {
+    left: 0px;
+    height: 100%;
   }
 }

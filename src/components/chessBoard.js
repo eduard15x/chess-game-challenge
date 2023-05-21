@@ -1,29 +1,14 @@
-// components
 import { useState, useEffect } from "react";
-import BoardDetails from "./boardDetails";
+// player models
 import { BlackPlayer } from "../models/blackPlayer";
 import { WhitePlayer } from "../models/whitePlayer";
-
-// utils
-import { getNumericPosition } from "../utils/getNumericPosition";
+// components
+import BoardDetails from "./boardDetails";
 import SingleSquare from "./singleSquare";
 import PlayerDetails from "./playerDetails";
-import {
-  checkMovesOptionsPawn,
-  checkMovesOptionsBishop,
-  checkMovesOptionsKnight,
-  checkMovesOptionsRook,
-  checkMovesOptionsQueen,
-  checkMovesOptionsKing,
-} from "../utils/getSelectedPieceOptions";
-import {
-  checkMoveAvailablePawn,
-  checkMoveAvailableBishop,
-  checkMoveAvailableKnight,
-  checkMoveAvailableRook,
-  checkMoveAvailableQueen,
-  checkMoveAvailableKing,
-} from "../utils/checkPieceMoves";
+// utils functions
+import { getNumericPosition } from "../utils/getNumericPosition";
+import { checkMovesOptions } from "../utils/checkValidMoves";
 
 const ChessBoard = () => {
   // variable
@@ -31,8 +16,8 @@ const ChessBoard = () => {
   const COLS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
   // states
-  const [whitePlayer, setWhitePlayer] = useState(WhitePlayer);
-  const [blackPlayer, setBlackPlayer] = useState(BlackPlayer);
+  const whitePlayer = WhitePlayer;
+  const blackPlayer = BlackPlayer;
   const [isTurn, setIsTurn] = useState(whitePlayer.turnToMove);
   const [showValidMoves, setShowValidMoves] = useState([]);
 
@@ -44,11 +29,15 @@ const ChessBoard = () => {
     ...whitePlayer.pieces,
     ...blackPlayer.pieces,
   ]);
-  // TODO const [positionArray, setPositionArray]
 
-  // TODO -----------------------------------------------------------
-  let matrix = [];
+  // create array to check if any king is dead
+  const deadKing = combinedArr
+    .filter((item) => item.name === "White King" || item.name === "Black King")
+    .find((item) => item.alive === false);
 
+  // creating matrix of the chess board
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const matrix = [];
   for (let i = 0; i < 8; i++) {
     let rowArr = [];
     matrix.push(rowArr);
@@ -56,12 +45,6 @@ const ChessBoard = () => {
       rowArr.push(null);
     }
   }
-
-  const kingsArr = combinedArr.filter(
-    (item) => item.name === "White King" || item.name === "Black King"
-  );
-
-  const deadKing = kingsArr.find((item) => item.alive === false);
 
   const selectPiece = (e) => {
     if (deadKing !== undefined || deadKing === null) {
@@ -78,7 +61,7 @@ const ChessBoard = () => {
         whitePlayer.turnToMove = false;
         blackPlayer.turnToMove = true;
       } else {
-        alert("blackPlayer Turn");
+        console.log("blackPlayer Turn");
         return;
       }
       update();
@@ -89,7 +72,6 @@ const ChessBoard = () => {
       e.target.dataset.pieceName !== selectedPiece.name &&
       e.target.dataset.pieceColor === selectedPiece.color
     ) {
-      console.log("another piece with same color selected");
       update();
     }
 
@@ -103,7 +85,7 @@ const ChessBoard = () => {
         blackPlayer.turnToMove = false;
         whitePlayer.turnToMove = true;
       } else {
-        alert("whitePlayer Turn");
+        console.log("whitePlayer Turn");
         return;
       }
       update();
@@ -114,7 +96,6 @@ const ChessBoard = () => {
       e.target.dataset.pieceName !== selectedPiece.name &&
       e.target.dataset.pieceColor === selectedPiece.color
     ) {
-      console.log("another piece with same color selected");
       update();
     }
 
@@ -124,7 +105,6 @@ const ChessBoard = () => {
       selectedPiece !== null &&
       e.target.dataset.pieceName === selectedPiece.name
     ) {
-      console.log("select the same");
       return;
     } else if (
       // condition after piece is selected, then select another enemy piece, different color
@@ -133,101 +113,51 @@ const ChessBoard = () => {
       e.target.dataset.pieceName !== selectedPiece.name &&
       e.target.dataset.pieceColor !== selectedPiece.color
     ) {
-      const [currRowNr, currColNr, nextPos, setRowNr, setColNr] = [
+      // show available moves
+      const pieceSelected = combinedArr.find((item) => {
+        return item.selected;
+      });
+
+      checkMovesOptions(
+        pieceSelected,
         Number(selectedPieceHtmlDataset.row),
         Number(selectedPieceHtmlDataset.col),
-        e.target.classList.contains("piece-img"),
-        Number(e.target.dataset.row),
-        Number(e.target.dataset.col),
-      ];
-      console.log(selectedPiece);
-      const conditionPawn = checkMoveAvailablePawn(
-        selectedPiece,
-        currRowNr,
-        currColNr,
-        nextPos,
-        setRowNr,
-        setColNr
-      );
-      const conditionBishop = checkMoveAvailableBishop(
-        selectedPiece,
-        currRowNr,
-        currColNr,
-        setRowNr,
-        setColNr
-      );
-      const conditionRook = checkMoveAvailableRook(
-        selectedPiece,
-        currRowNr,
-        currColNr,
-        setRowNr,
-        setColNr
-      );
-      const conditionKnight = checkMoveAvailableKnight(
-        selectedPiece,
-        currRowNr,
-        currColNr,
-        setRowNr,
-        setColNr
-      );
-      const conditionQueen = checkMoveAvailableQueen(
-        selectedPiece,
-        currRowNr,
-        currColNr,
-        setRowNr,
-        setColNr
-      );
-      const conditionKing = checkMoveAvailableKing(
-        selectedPiece,
-        currRowNr,
-        currColNr,
-        setRowNr,
-        setColNr
+        setShowValidMoves,
+        matrix
       );
 
-      // TODO I think this is unnecessary for
-      if (
-        conditionPawn ||
-        conditionBishop ||
-        conditionRook ||
-        conditionKnight ||
-        conditionQueen ||
-        conditionKing
-      ) {
-        console.log("enemy piece selected");
-        // condition to delete piece
-        if (selectedPiece.color === "white") {
-          whitePlayer.turnToMove = false;
-          blackPlayer.turnToMove = true;
-          const enemyPieceSelected = blackPlayer.pieces.find(
-            (item) => e.target.dataset.pieceName === item.name
-          );
-          enemyPieceSelected.alive = false;
-          selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
-          // remade the other items unselected
-          combinedArr.map((item) => (item.selected = false));
-          console.log("blackPlayer");
-          setSelectedPiece(null);
-          setSelectedPieceHtmlDataset(null);
-          // redefine new the array with the updates
-          setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
-        } else if (selectedPiece.color === "black") {
-          blackPlayer.turnToMove = false;
-          whitePlayer.turnToMove = true;
-          const enemyPieceSelected = whitePlayer.pieces.find(
-            (item) => e.target.dataset.pieceName === item.name
-          );
-          console.log(enemyPieceSelected);
-          enemyPieceSelected.alive = false;
-          selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
-          // remade the other items unselected
-          combinedArr.map((item) => (item.selected = false));
-          console.log("whitePlayer");
-          setSelectedPiece(null);
-          setSelectedPieceHtmlDataset(null);
-          // redefine new the array with the updates
-          setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
-        }
+      const existValidPosition = showValidMoves.find(
+        (item) => item === `${e.target.dataset.row},${e.target.dataset.col}`
+      );
+      if (existValidPosition === undefined) return;
+
+      // condition to delete piece
+      if (selectedPiece.color === "white") {
+        whitePlayer.turnToMove = false;
+        blackPlayer.turnToMove = true;
+        const enemyPieceSelected = blackPlayer.pieces.find(
+          (item) => e.target.dataset.pieceName === item.name
+        );
+        deletePiece(enemyPieceSelected);
+      } else if (selectedPiece.color === "black") {
+        blackPlayer.turnToMove = false;
+        whitePlayer.turnToMove = true;
+        const enemyPieceSelected = whitePlayer.pieces.find(
+          (item) => e.target.dataset.pieceName === item.name
+        );
+        deletePiece(enemyPieceSelected);
+      }
+
+      function deletePiece(enemyPieceSelected) {
+        enemyPieceSelected.alive = false;
+        selectedPiece.numericPosition = enemyPieceSelected.numericPosition;
+        // remade the other items unselected
+        combinedArr.map((item) => (item.selected = false));
+        setSelectedPiece(null);
+        setSelectedPieceHtmlDataset(null);
+        // redefine new the array with the updates
+        setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
+        setShowValidMoves([]);
       }
     }
 
@@ -235,7 +165,6 @@ const ChessBoard = () => {
       setShowValidMoves([]);
       // set state for array with new values of player objects
       setCombinedArr([...whitePlayer.pieces, ...blackPlayer.pieces]);
-      console.log("da");
 
       // remade the other items unselected
       combinedArr.map((item) => (item.selected = false));
@@ -247,49 +176,14 @@ const ChessBoard = () => {
       setSelectedPiece(pieceClicked);
       setSelectedPieceHtmlDataset(e.target.dataset);
 
-      checkMovesOptionsPawn(
+      // show available moves
+      checkMovesOptions(
         pieceClicked,
         Number(e.target.dataset.row),
         Number(e.target.dataset.col),
         setShowValidMoves,
         matrix
       );
-      checkMovesOptionsBishop(
-        pieceClicked,
-        Number(e.target.dataset.row),
-        Number(e.target.dataset.col),
-        setShowValidMoves,
-        matrix
-      );
-      checkMovesOptionsKnight(
-        pieceClicked,
-        Number(e.target.dataset.row),
-        Number(e.target.dataset.col),
-        setShowValidMoves,
-        matrix
-      );
-      checkMovesOptionsRook(
-        pieceClicked,
-        Number(e.target.dataset.row),
-        Number(e.target.dataset.col),
-        setShowValidMoves,
-        matrix
-      );
-      checkMovesOptionsQueen(
-        pieceClicked,
-        Number(e.target.dataset.row),
-        Number(e.target.dataset.col),
-        setShowValidMoves,
-        matrix
-      );
-      checkMovesOptionsKing(
-        pieceClicked,
-        Number(e.target.dataset.row),
-        Number(e.target.dataset.col),
-        setShowValidMoves,
-        matrix
-      );
-      console.log(pieceClicked);
     }
   };
 
@@ -311,73 +205,20 @@ const ChessBoard = () => {
 
       if (positionSelected) {
         // here starts the logic
-
-        const [currRowNr, currColNr, nextPos, setRowNr, setColNr] = [
-          Number(selectedPieceHtmlDataset.row),
-          Number(selectedPieceHtmlDataset.col),
-          e.target.classList.contains("piece-img"),
+        const [setRowNr, setColNr] = [
           Number(e.target.dataset.row),
           Number(e.target.dataset.col),
         ];
-        console.log(positionSelected);
 
-        const conditionPawn = checkMoveAvailablePawn(
-          positionSelected,
-          currRowNr,
-          currColNr,
-          nextPos,
-          setRowNr,
-          setColNr
-        );
-        const conditionBishop = checkMoveAvailableBishop(
-          positionSelected,
-          currRowNr,
-          currColNr,
-          setRowNr,
-          setColNr
-        );
-        const conditionRook = checkMoveAvailableRook(
-          positionSelected,
-          currRowNr,
-          currColNr,
-          setRowNr,
-          setColNr
-        );
-        const conditionKnight = checkMoveAvailableKnight(
-          selectedPiece,
-          currRowNr,
-          currColNr,
-          setRowNr,
-          setColNr
-        );
-        const conditionQueen = checkMoveAvailableQueen(
-          selectedPiece,
-          currRowNr,
-          currColNr,
-          setRowNr,
-          setColNr
-        );
-        const conditionKing = checkMoveAvailableKing(
-          selectedPiece,
-          currRowNr,
-          currColNr,
-          setRowNr,
-          setColNr
+        const existValidPosition = showValidMoves.find(
+          (item) => item === `${setRowNr},${setColNr}`
         );
 
-        if (
-          conditionPawn ||
-          conditionBishop ||
-          conditionRook ||
-          conditionKnight ||
-          conditionQueen ||
-          conditionKing
-        ) {
+        if (existValidPosition !== undefined) {
           positionSelected.numericPosition = Number(
             e.target.dataset.numericPosition
           );
         } else {
-          console.log("invalid");
           return;
         }
       }
@@ -386,6 +227,7 @@ const ChessBoard = () => {
       // set turn
       // unselect the piece after move ended
       // redefine new the array with the updates
+
       setIsTurn(whitePlayer.turnToMove);
       setShowValidMoves([]);
       setSelectedPiece(null);
@@ -403,6 +245,7 @@ const ChessBoard = () => {
     const piecesCheck = document.querySelectorAll(
       ".chess-board__piece-img.piece-img"
     );
+
     for (let square of piecesCheck) {
       let rowMatrix = Number(square.dataset.row);
       let colMatrix = Number(square.dataset.col);
@@ -410,10 +253,10 @@ const ChessBoard = () => {
         row: square.dataset.row,
         col: square.dataset.col,
         color: square.dataset.pieceColor,
+        type: square.dataset.pieceType,
       };
     }
   }, [showValidMoves, deadKing, selectedPiece, matrix]);
-  console.log(matrix);
   return (
     <div className="chess-board">
       {ROWS.map((row) => (

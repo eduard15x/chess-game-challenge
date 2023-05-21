@@ -17,6 +17,7 @@ const SinglePieceImage = ({
       data-numeric-position={numericPosition}
       data-piece-name={piece.name}
       data-piece-color={piece.color}
+      data-piece-type={piece.type}
       data-row={row}
       data-col={col}
       onClick={selectPiece}
